@@ -10,3 +10,6 @@ Se utiliza **SQLAlchemy** con el patrón de diseño de "Sesión por Petición". 
 
 ## Cómo migrar cambios
 Por ahora, utilizaremos `Base.metadata.create_all(bind=engine)` en el arranque de la aplicación para generar las tablas automáticamente si no existen.
+
+## Generación de Esquema:
+El sistema utiliza "Lazy Initialization". Al iniciar el servidor FastAPI, el motor de SQLAlchemy escanea las clases que heredan de Base y ejecuta los comandos CREATE TABLE necesarios en MySQL.
