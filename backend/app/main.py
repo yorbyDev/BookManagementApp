@@ -1,5 +1,11 @@
 # backend/app/main.py
 from fastapi import FastAPI
+from app.models import models
+from app.core.database import engine
+
+# Esta línea le dice a SQLAlchemy que cree las tablas definidas en 'models'
+# basándose en la configuración del 'engine'
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Sistema de Préstamos de Libros",
