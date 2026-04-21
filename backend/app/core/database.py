@@ -1,15 +1,24 @@
+import os
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Configuración de la URL de conexión (Sustituye con tus credenciales de MySQL)
-# Formato: mysql+pymysql://usuario:password@host:puerto/nombre_db
-SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:password@localhost:3306/biblioteca_db"
+# Cargar las variables desde el archivo .env
+load_dotenv()
+
+# Obtener las variables de entorno
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST")
+DB_PORT = os.getenv("DB_PORT")
+DB_NAME = os.getenv("DB_NAME")
+
+# Construir la URL usando constantes (F-strings)
+SQLALCHEMY_DATABASE_URL = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 # El motor (engine) es el encargado de la comunicación con el driver PyMySQL
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL
-)
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 # Creamos una fábrica de sesiones para interactuar con la DB
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
