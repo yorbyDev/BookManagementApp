@@ -1,15 +1,18 @@
 from passlib.context import CryptContext
 
-# Configuramos passlib para usar el algoritmo bcrypt
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 class Security:
     @staticmethod
     def hash_password(password: str) -> str:
-        """Recibe texto plano y devuelve el hash de Bcrypt."""
+        # Bcrypt tiene un límite de 72 caracteres. 
+        # Si la contraseña es más larga, la truncamos para evitar el ValueError.
+        if len(password) > 72:
+            password = password[:72]
         return pwd_context.hash(password)
 
     @staticmethod
     def verify_password(plain_password: str, hashed_password: str) -> bool:
-        """Compara una contraseña en texto plano con un hash almacenado."""
+        if len(plain_password) > 72:
+            plain_password = plain_password[:72]
         return pwd_context.verify(plain_password, hashed_password)
