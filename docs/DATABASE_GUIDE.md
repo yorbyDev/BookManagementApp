@@ -13,3 +13,9 @@ Por ahora, utilizaremos `Base.metadata.create_all(bind=engine)` en el arranque d
 
 ## Generación de Esquema:
 El sistema utiliza "Lazy Initialization". Al iniciar el servidor FastAPI, el motor de SQLAlchemy escanea las clases que heredan de Base y ejecuta los comandos CREATE TABLE necesarios en MySQL.
+
+## Verificación de Datos (QA)
+Para confirmar que los registros se están guardando correctamente:
+1. Conectarse al servidor MySQL mediante HeidiSQL.
+2. Ejecutar la consulta: `SELECT id, nombre, email FROM usuarios;`.
+3. Validar que la columna `password` contenga un hash (ej: `$2b$12$...`) y no la contraseña original.
