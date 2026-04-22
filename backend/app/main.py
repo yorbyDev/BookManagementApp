@@ -2,7 +2,9 @@
 from fastapi import FastAPI
 from app.models import models
 from app.core.database import engine
-from app.api.user_routes import router as user_router # Importar rutas
+# Importar rutas
+from app.api.user_routes import router as user_router
+from app.api.auth_routes import router as auth_router
 
 # Esta línea le dice a SQLAlchemy que cree las tablas definidas en 'models'
 # basándose en la configuración del 'engine'
@@ -16,6 +18,7 @@ app = FastAPI(
 
 # Registrar las rutas de usuarios
 app.include_router(user_router)
+app.include_router(auth_router)
 
 @app.get("/", tags=["Root"])
 async def read_root():
