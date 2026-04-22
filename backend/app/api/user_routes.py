@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.schemas.user_schema import UserCreate, UserOut
 from app.repositories.user_repository import UserRepository
+from app.core.dependencies import get_current_user # Importar el portero
+from app.models.models import Usuario # Importar el modelo para el tipo de dato
 
 router = APIRouter(prefix="/usuarios", tags=["Usuarios"])
 
@@ -18,3 +20,11 @@ def registrar_usuario(user: UserCreate, db: Session = Depends(get_db)):
     
     # 2. Crear el usuario
     return UserRepository.create_user(db=db, user_data=user)
+
+@router.get("/perfil", response_model=UserOut)
+def ver_mi_perfil(current_user: Usuario = Depends(get_current_user)):
+    """
+    Ruta protegida: Solo si el usuario envía un token válido
+    en el header 'Authorization: Bearer <token>'
+    """
+    return current_user
