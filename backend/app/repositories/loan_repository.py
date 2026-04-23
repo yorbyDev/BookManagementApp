@@ -31,3 +31,24 @@ class LoanRepository:
         db.refresh(nuevo_prestamo)
         
         return nuevo_prestamo
+    
+    @staticmethod
+    def return_book(db: Session, prestamo_id: int):
+        # 1. Buscar el préstamo activo
+        prestamo = db.query(Prestamo).filter(Prestamo.id == prestamo_id, Prestamo.devuelto == False).first()
+        
+        if not prestamo:
+            return None # No existe el préstamo o ya fue devuelto
+
+        # 2. Marcar como devuelto
+        prestamo.devuelto = True
+        
+        # 3. RESTAURAR ESTADO: El libro vuelve a estar disponible
+        libro = db.query(Libro).filter(Libro.id == prestamo.libro_id).first()
+        if libro:
+            libro.disponible = True
+        
+        db.commit()
+        db.refresh(prestamo)
+        
+        return prestamo

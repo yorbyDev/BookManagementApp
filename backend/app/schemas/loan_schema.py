@@ -10,6 +10,10 @@ class LoanOut(BaseModel):
     usuario_id: int
     prestado_en: date
     devolver_en: date
+    devuelto: bool
 
     class Config:
         from_attributes = True
+        
+class LoanReturn(BaseModel):
+    prestamo_id: int

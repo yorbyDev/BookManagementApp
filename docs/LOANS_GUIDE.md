@@ -17,3 +17,15 @@ El sistema automatiza el control de tiempos mediante la librería `datetime` de 
 Gracias a las relaciones de SQLAlchemy (`relationship`), el modelo permite:
 - Acceder a todos los préstamos de un usuario desde el objeto usuario.
 - Consultar el historial de un libro desde el objeto libro.
+
+## 4. Proceso de Devolución (`PATCH /devolucion`)
+Cierra el ciclo del préstamo mediante las siguientes acciones:
+- **Finalización**: Cambia el estado `devuelto` a `true` en el registro del préstamo.
+- **Restauración**: El libro vinculado recupera su estado `disponible: true`.
+- **Seguridad**: Solo usuarios autenticados pueden procesar devoluciones (el bibliotecario o el sistema).
+
+## 5. Sistema de Historial
+El sistema mantiene un registro permanente de cada transacción. 
+- Un registro con `devuelto: false` representa un préstamo activo.
+- Un registro con `devuelto: true` representa un préstamo finalizado (histórico).
+Esta estructura permite auditar quién tuvo qué libro y en qué fechas, independientemente de si el libro está disponible ahora.

@@ -33,6 +33,7 @@ class Prestamo(Base):
     usuario_id = Column(Integer, ForeignKey("usuarios.id"))
     prestado_en = Column(Date, nullable=False)
     devolver_en = Column(Date, nullable=False)
+    devuelto = Column(Boolean, default=False)
 
     usuario = relationship("Usuario", back_populates="prestamos")
     libro = relationship("Libro", back_populates="prestamos")
