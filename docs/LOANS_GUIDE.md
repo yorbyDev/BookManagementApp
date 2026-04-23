@@ -29,3 +29,8 @@ El sistema mantiene un registro permanente de cada transacción.
 - Un registro con `devuelto: false` representa un préstamo activo.
 - Un registro con `devuelto: true` representa un préstamo finalizado (histórico).
 Esta estructura permite auditar quién tuvo qué libro y en qué fechas, independientemente de si el libro está disponible ahora.
+
+## 6. Control de Tiempos Reales
+El sistema no solo registra el límite de entrega, sino también la fecha efectiva:
+- **devuelto_el**: Almacena el día exacto en que el libro fue reintegrado. 
+- **Propósito**: Permite la auditoría de retrasos y la generación de reportes de cumplimiento por parte de los usuarios.
