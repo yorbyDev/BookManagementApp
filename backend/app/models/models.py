@@ -34,6 +34,7 @@ class Prestamo(Base):
     prestado_en = Column(Date, nullable=False)
     devolver_en = Column(Date, nullable=False)
     devuelto = Column(Boolean, default=False)
+    devuelto_el = Column(Date, nullable=True)
 
     usuario = relationship("Usuario", back_populates="prestamos")
     libro = relationship("Libro", back_populates="prestamos")

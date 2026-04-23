@@ -42,6 +42,7 @@ class LoanRepository:
 
         # 2. Marcar como devuelto
         prestamo.devuelto = True
+        prestamo.devuelto_el = date.today()
         
         # 3. RESTAURAR ESTADO: El libro vuelve a estar disponible
         libro = db.query(Libro).filter(Libro.id == prestamo.libro_id).first()
