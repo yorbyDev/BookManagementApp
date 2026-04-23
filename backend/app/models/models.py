@@ -20,7 +20,7 @@ class Libro(Base):
     titulo = Column(String(45), nullable=False)
     autor = Column(String(45), nullable=False)
     isbn = Column(String(45), unique=True, nullable=False)
-    editorial = Column(String(45))
+    editorial = Column(String(100), nullable=True)
     disponible = Column(Boolean, default=True) # TINYINT en MySQL es Boolean en Python
 
     prestamos = relationship("Prestamo", back_populates="libro")
