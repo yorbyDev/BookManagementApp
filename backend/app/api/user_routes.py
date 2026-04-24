@@ -36,3 +36,18 @@ def listar_usuarios_admin(
     admin_user: Usuario = Depends(validate_admin) # Solo el jefe entra aquí
 ):
     return db.query(Usuario).all()
+
+@router.delete("/admin/usuarios/{usuario_id}")
+def eliminar_usuario(
+    usuario_id: int,
+    db: Session = Depends(get_db),
+    admin_user: Usuario = Depends(validate_admin)
+):
+    """Elimina un usuario (Usar con precaución por la integridad referencial)."""
+    usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    db.delete(usuario)
+    db.commit()
+    return {"message": f"Usuario {usuario_id} eliminado correctamente"}
