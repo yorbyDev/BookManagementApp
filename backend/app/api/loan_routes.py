@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.core.dependencies import get_current_user, validate_admin
-from app.schemas.loan_schema import LoanCreate, LoanOut, LoanReturn, LoanAdminView
+from app.schemas.loan_schema import LoanCreate, LoanOut, LoanReturn, LoanAdminView, MyLoanOut
 from app.repositories.loan_repository import LoanRepository, Prestamo
 from app.models.models import Usuario
 from typing import List
@@ -46,6 +46,28 @@ def devolver_libro(
         )
         
     return prestamo
+
+@router.get("/mis-prestamos", response_model=List[MyLoanOut])
+def obtener_mis_prestamos(
+    db: Session = Depends(get_db),
+    current_user: Usuario = Depends(get_current_user)
+):
+    # Buscamos todos los préstamos vinculados al ID del usuario actual
+    prestamos = db.query(Prestamo).filter(Prestamo.usuario_id == current_user.id).all()
+    
+    # Mapeamos para incluir el título del libro gracias a la relación
+    resultado = []
+    for p in prestamos:
+        resultado.append({
+            "id": p.id,
+            "libro_titulo": p.libro.titulo,
+            "prestado_en": p.prestado_en,
+            "devolver_en": p.devolver_en,
+            "devuelto": p.devuelto,
+            "devuelto_el": p.devuelto_el
+        })
+    
+    return resultado
 
 @router.get("/admin/estado-global", response_model=List[LoanAdminView])
 def ver_estado_global(
