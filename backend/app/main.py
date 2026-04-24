@@ -2,6 +2,7 @@
 from fastapi import FastAPI
 from app.models import models
 from app.core.database import engine
+from fastapi.middleware.cors import CORSMiddleware
 # Importar rutas
 from app.api.user_routes import router as user_router
 from app.api.auth_routes import router as auth_router
@@ -16,6 +17,14 @@ app = FastAPI(
     title="Sistema de Préstamos de Libros",
     description="API para la gestión de biblioteca con arquitectura modular",
     version="1.0.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permite que cualquier origen (tu frontend) se conecte
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite GET, POST, PUT, DELETE, etc.
+    allow_headers=["*"],  # Permite todos los encabezados (incluido el de Authorization)
 )
 
 # Registrar las rutas de la API
