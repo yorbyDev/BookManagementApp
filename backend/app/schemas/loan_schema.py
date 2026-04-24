@@ -19,3 +19,14 @@ class LoanOut(BaseModel):
         
 class LoanReturn(BaseModel):
     prestamo_id: int
+
+class LoanAdminView(BaseModel):
+    id: int
+    prestado_en: date
+    devolver_en: date
+    usuario_nombre: str # Extraído de la relación
+    libro_titulo: str   # Extraído de la relación
+    devuelto: bool
+
+    class Config:
+        from_attributes = True

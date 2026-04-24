@@ -10,6 +10,7 @@ class Usuario(Base):
     apellido = Column(String(45), nullable=False)
     email = Column(String(100), unique=True, index=True, nullable=False) # Necesario para login
     password = Column(String(255), nullable=False) # Aumentado para el hash de Bcrypt
+    es_admin = Column(Boolean, default=False)
 
     prestamos = relationship("Prestamo", back_populates="usuario")
 

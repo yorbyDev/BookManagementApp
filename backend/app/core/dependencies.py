@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.core.auth import SECRET_KEY, ALGORITHM
 from app.repositories.user_repository import UserRepository
+from app.models.models import Usuario
 
 # Esta línea le dice a FastAPI dónde buscar el token (en la ruta /auth/login)
 # y habilita el botón de "Authorize" (el candadito) en Swagger.
@@ -39,3 +40,11 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         raise credentials_exception
         
     return user
+
+def validate_admin(current_user: Usuario = Depends(get_current_user)):
+    if not current_user.es_admin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="No tienes permisos suficientes para realizar esta acción."
+        )
+    return current_user
