@@ -26,6 +26,9 @@ def login(credentials: OAuth2PasswordRequestForm = Depends(), db: Session = Depe
     return {
         "access_token": access_token,
         "token_type": "bearer",
-        "es_admin": user.es_admin
+        "user": {
+            "es_admin": user.es_admin,
+            "username": user.nombre # Útil para el saludo en el Layout
+        }
     }
         
