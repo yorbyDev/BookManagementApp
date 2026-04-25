@@ -53,7 +53,7 @@ def obtener_mis_prestamos(
     current_user: Usuario = Depends(get_current_user)
 ):
     # Buscamos todos los préstamos vinculados al ID del usuario actual
-    prestamos = db.query(Prestamo).filter(Prestamo.usuario_id == current_user.id).all()
+    prestamos = db.query(Prestamo).filter(Prestamo.usuario_id == current_user.id, Prestamo.devuelto == False).all()
     
     # Mapeamos para incluir el título del libro gracias a la relación
     resultado = []
