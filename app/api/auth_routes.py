@@ -23,4 +23,9 @@ def login(credentials: OAuth2PasswordRequestForm = Depends(), db: Session = Depe
     
     access_token = AuthService.create_access_token(data={"sub": user.email})
     
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "es_admin": user.es_admin
+    }
+        
